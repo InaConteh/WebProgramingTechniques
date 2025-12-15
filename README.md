@@ -1,89 +1,135 @@
-# Grass Root Football Agency Management System
+# LionSport Agency - Football Management System
 
-A dynamic web application for managing a football agency's player directory, contracts, and recruiting. Built with PHP, MySQL, CSS (Vanilla), and JavaScript.
+Welcome to the **LionSport Agency** project (Group 2 Final Project). This is a comprehensive web-based platform designed to bridge the gap between talented football players and global opportunities.
+
+## 🌟 Project Overview
+
+This system serves as a digital hub for a modern football agency, allowing:
+
+- **Players** to showcase their profiles, stats, and videos.
+- **Agents & Managers** to scout talent and manage contracts.
+- **Administrators** to oversee the entire platform, manage users, and handle inquiries.
 
 ## 🚀 Features
 
-### 🌟 Public Features
+### Public Features
 
-- **Dynamic Player Directory**: View all represented players with real-time data.
-- **Player Details**: Individual contract pages (`contract.php`) showing specific stats, club info, and highlights.
-- **User Authentication**: Secure Login and Registration system for fans/scouts.
-- **Responsive Design**: Mobile-friendly layout with smooth scroll animations.
-- **Downloadable Reports**: Generate and download text summaries for any player.
+- **Dynamic Hero Section:** Immersive 3D animations, particle effects, and live stat counters.
+- **Player Directory:** Browse player profiles with filters for position, country, and status.
+- **About Us:** Meet the team and learn about the agency's mission.
+- **Contact Form:** Integrated inquiry system connecting directly to the admin panel.
 
-### 🛡 Admin Features (Role-Based Access)
+### User Features (Registered)
 
-- **Dashboard Access**: Special admin privileges.
-- **Player Management**:
-  - **Add Player**: Upload photos, set nationality, club, and age.
-  - **Edit Player**: Update details and change images instantly.
-  - **Delete Player**: Remove records from the database.
-- **Image Uploads**: Real file handling for player profile pictures.
+- **Player Profiles:** Detailed bios, transfer values, position info, and video highlights.
+- **Contract Management:** View active contracts, expiry dates, and salary info.
+- **Video Gallery:** Upload and embed match highlights.
 
-## 🛠 Prerequisites
+### Admin Features
 
-- **Web Server**: Apache (via XAMPP, WAMP, or MAMP).
-- **Database**: MySQL.
-- **PHP**: Version 7.4 or higher.
+- **Dashboard:** Overview of system stats.
+- **User Management:** Add/Edit/Delete users (Agents, Players, Managers).
+- **Player Management:** Full CRUD operations for player records.
+- **Contact Inquiries:** View and manage messages from the contact page.
+- **Contract Oversight:** Manage negotiation status and terms.
 
-## ⚙ Installation & Setup
+## 🛠️ Installation & Setup
 
-1.  **Clone/Place Files**:
+### Prerequisites
 
-    - Ensure the project folder is in your server's root (e.g., `C:\xampp\htdocs\football_agency`).
+- **XAMPP** (or any PHP/MySQL environment)
+- **Web Browser** (Chrome/Edge/Firefox)
 
-2.  **Database Setup**:
+### Step-by-Step Guide
 
-    - Open **phpMyAdmin**.
-    - Create a database named `football_agency_db`.
-    - Import the `schema.sql` file provided in this folder.
-    - **Crucial Step**: Run the update script to ensure all columns exist:
-      - Access: `http://localhost/football_agency/update_schema.php`
+1.  **Clone/Download** the repository to your server directory (e.g., `htdocs`).
 
-3.  **Database Configuration**:
+    ```bash
+    git clone https://github.com/InaConteh/Group-2-Final-Project-WebProgramming-Techiques.git
+    ```
 
-    - Open `db_connect.php`.
-    - Verify credentials (default XAMPP is User: `root`, Pass: `[blank]`).
+2.  **Database Setup:**
 
-4.  **Admin Account Setup**:
-    - Create the "Super Admin" account by visiting:
-      - `http://localhost/football_agency/admin_setup.php`
-    - **Default Credentials**:
-      - Email: `admin@agency.com`
-      - Password: `AdminSecret123!`
+    - Open **phpMyAdmin** (`http://localhost/phpmyadmin`).
+    - Create a new database named `football_agency_db`.
+    - Import the `schema.sql` file provided in the project folder.
+    - (Optional) Run `seed_data.php` to populate with initial test data.
 
-## 📖 Usage Guide
+3.  **Configuration:**
 
-### Logging In
+    - Open `db_connect.php` and check your database credentials:
+      ```php
+      $servername = "localhost";
+      $username = "root";
+      $password = "";
+      $dbname = "football_agency_db";
+      ```
 
-- Navigate to `login.php`.
-- Enter your credentials.
-- Admins will see extra controls (Add/Edit/Delete) on the `players.php` page.
+4.  **Run the Project:**
+    - Start Apache and MySQL in XAMPP.
+    - Visit: `http://localhost/Group-2-Final-Project-WebProgramming-Techiques/`
 
-### Managing Players (Admin Only)
+## 🔐 User Roles & Credentials
 
-- **Add**: Click "Add New Player" on the top of the Players Directory. Fill in the form and upload an image.
-- **Edit**: Click the "Edit" button on any player card. modify details or upload a new photo. Changes reflect immediately.
+The system supports multiple user roles with distinct permissions. Use these default accounts for testing:
 
-### Downloading Reports
+### 1. Super Admin (Full Access)
 
-- Go to any player's contract page.
-- Click the **⬇ Download Report** icon in the header.
-- A `.txt` file with the player's profile will be downloaded.
+- **Email:** `admin@agency.com`
+- **Password:** `AdminSecret123!`
+- **Capabilities:** Manage all users, delete records, view all contracts, manage contact submissions.
 
-## 📁 File Structure
+### 2. Agent (Talent Management)
 
-- `index.php`: Homepage with animations.
-- `players.php`: Main directory (Role-protected).
-- `contract.php`: Dynamic individual player page.
-- `admin_setup.php`: Script to generate admin user.
-- `update_schema.php`: Script to update DB table structure.
-- `uploads/`: Directory where player images are stored.
-- `style.css`: Main stylesheet.
-- `main.js`: Scroll animations and interactions.
+- **Email:** `agent@agency.com`
+- **Password:** `AgentPass123!`
+- **Capabilities:** View multiple players, propose contracts, update player status.
 
-## 🎨 Credits
+### 3. Club Manager (Scouting)
 
-- **Design**: Custom polished UI with glassmorphism and sticky navigation.
-- **Animations**: CSS3 & Intersection Observer API.
+- **Email:** `manager@club.com`
+- **Password:** `ManagerPass123!`
+- **Capabilities:** Browse listings, place bids, view limited contract info.
+
+### 4. Player (Individual Access)
+
+- **Email:** _Created upon registration_
+- **Capabilities:** Edit own profile, view personal contract status.
+
+## 📝 Usage Guide
+
+### How to Register
+
+1.  Click **"Login"** in the navigation bar.
+2.  Select **"Register here"**.
+3.  Fill in your details (Name, Email, Password).
+4.  Default role is "User/Player" until promoted by an Admin.
+
+### How to Add a Player (Admin)
+
+1.  Log in as **Admin**.
+2.  Navigate to **Players** page.
+3.  Click **"Add New Player"**.
+4.  Fill in bio, stats, market value, and upload a photo.
+
+### How to Manage Contacts
+
+1.  Log in as **Admin**.
+2.  Go to the **Contact** page (Admin view active).
+3.  You will see a table of all messages sent via the public contact form.
+4.  You can mark them as read or delete them.
+
+## 📂 Project Structure
+
+- `index.php` - Homepage with dynamic stats.
+- `players.php` - Player directory and search.
+- `contract.php` - Contract details and negotiations.
+- `admin_contacts.php` - Admin panel for inquiries.
+- `db_connect.php` - Database connection settings.
+- `enhanced-hero.css` - Special styles for the animated hero section.
+- `main.js` - Frontend logic for animations and interactions.
+
+---
+
+**Developed by Group 2**  
+_Web Programming Techniques Final Project_
