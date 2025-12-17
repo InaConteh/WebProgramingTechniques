@@ -98,6 +98,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $club = $_POST['club'];
         $age = $_POST['age'];
         $nationality = $_POST['nationality'];
+        $position = $_POST['position'];
         $market_status = $_POST['market_status'];
         $market_value = $_POST['market_value'];
         $contract_start = !empty($_POST['contract_start']) ? $_POST['contract_start'] : NULL;
@@ -133,8 +134,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // The UI below has separate forms for Video and Player. 
             // If 'update_player' is set, it's the main form.
 
-            $update_stmt = $conn->prepare("UPDATE players SET name=?, club=?, age=?, nationality=?, market_status=?, market_value=?, contract_start=?, contract_end=?, image_url=? WHERE id=?");
-            $update_stmt->bind_param("ssissssssi", $name, $club, $age, $nationality, $market_status, $market_value, $contract_start, $contract_end, $image_url, $id);
+            $update_stmt = $conn->prepare("UPDATE players SET name=?, club=?, age=?, nationality=?, position=?, market_status=?, market_value=?, contract_start=?, contract_end=?, image_url=? WHERE id=?");
+            $update_stmt->bind_param("ssisssssssi", $name, $club, $age, $nationality, $position, $market_status, $market_value, $contract_start, $contract_end, $image_url, $id);
 
             if ($update_stmt->execute()) {
                 header("Location: edit_player.php?id=$id&msg=Player Updated");
@@ -159,85 +160,10 @@ $conn->close();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Player | Football Agency</title>
     <link rel="stylesheet" href="style.css">
-    <style>
-        .form-container {
-            max-width: 600px;
-            margin: 50px auto;
-            padding: 20px;
-            background: #fff;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-
-        .form-group input,
-        .form-group select {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            box-sizing: border-box;
-            /* Fix padding issues */
-        }
-
-        .btn {
-            width: 100%;
-            padding: 10px;
-            background: #ffc107;
-            color: black;
-            border: none;
-            cursor: pointer;
-            border-radius: 4px;
-            font-weight: bold;
-        }
-
-        .btn:hover {
-            background: #e0a800;
-        }
-
-        .btn-delete {
-            background: #dc3545;
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            border-radius: 3px;
-            cursor: pointer;
-        }
-
-        .btn-delete:hover {
-            background: #c82333;
-        }
-
-        .current-img {
-            display: block;
-            width: 100px;
-            margin-top: 10px;
-            border-radius: 4px;
-        }
-    </style>
 </head>
 
 <body>
-    <header>
-        <nav class="navbar">
-            <a href="index.php" class="logo">
-                <img src="images/logo_icon.png" alt="LionSport Agency Badge">
-                <span class="logo-text">LionSport Agency</span>
-            </a>
-            <ul class="nav-links">
-                <li><a href="players.php">Back to List</a></li>
-            </ul>
-        </nav>
-    </header>
+    <?php include 'header.php'; ?>
 
     <div class="form-container animate-on-scroll">
         <h2>Edit Player</h2>
@@ -260,6 +186,11 @@ $conn->close();
                 <label>Nationality</label>
                 <input type="text" name="nationality"
                     value="<?php echo htmlspecialchars($player['nationality'] ?? ''); ?>" required>
+            </div>
+            <div class="form-group">
+                <label>Position</label>
+                <input type="text" name="position" value="<?php echo htmlspecialchars($player['position'] ?? ''); ?>"
+                    required>
             </div>
             <div class="form-group">
                 <label>Age</label>
@@ -308,7 +239,7 @@ $conn->close();
                 <label style="margin-top:10px;">Change Image (Leave blank to keep current)</label>
                 <input type="file" name="image" accept="image/*">
             </div>
-            <button type="submit" class="btn">Update Player</button>
+            <button type="submit" class="btn btn-primary">Update Player</button>
         </form>
 
         <!-- Video Management Section -->
@@ -326,7 +257,8 @@ $conn->close();
                         </span>
                         <form method="POST" style="margin:0;">
                             <input type="hidden" name="delete_video_id" value="<?php echo $vid['id']; ?>">
-                            <button type="submit" class="btn-delete" onclick="return confirm('Are you sure?');">Delete</button>
+                            <button type="submit" class="btn btn-danger"
+                                onclick="return confirm('Are you sure?');">Delete</button>
                         </form>
                     </div>
                 <?php endwhile; ?>

@@ -43,25 +43,7 @@ $conn->close();
 </head>
 
 <body>
-    <header>
-        <nav class="navbar">
-            <a href="index.php" class="logo">
-                <img src="images/logo_icon.png" alt="LionSport Agency Badge">
-                <span class="logo-text">LionSport Agency</span>
-            </a>
-            <ul class="nav-links">
-                <li><a href="index.php">Home</a></li>
-                <li><a href="players.php">Players</a></li>
-                <li><a href="about.php">About</a></li>
-                <li><a href="contact.php">Contact</a></li>
-                <?php if (isset($_SESSION['user_id'])): ?>
-                    <li><a href="logout.php">Logout (<?php echo htmlspecialchars($_SESSION['username']); ?>)</a></li>
-                <?php else: ?>
-                    <li><a href="login.php">Login</a></li>
-                <?php endif; ?>
-            </ul>
-        </nav>
-    </header>
+    <?php include 'header.php'; ?>
 
     <main class="container" style="padding: 40px; max-width: 900px; margin: 0 auto;">
         <div class="player-profile" style="display: flex; gap: 40px; margin-bottom: 40px;">
@@ -73,7 +55,7 @@ $conn->close();
                 <h1 style="color: var(--primary-color); margin-top: 0;"><?php echo htmlspecialchars($player['name']); ?>
                 </h1>
                 <p><strong>Club:</strong> <?php echo htmlspecialchars($player['club']); ?></p>
-                <p><strong>Position:</strong> <?php echo htmlspecialchars($player['position']); ?></p>
+                <p><strong>Position:</strong> <?php echo htmlspecialchars($player['position'] ?? 'N/A'); ?></p>
                 <p><strong>Nationality:</strong> <?php echo htmlspecialchars($player['nationality']); ?></p>
                 <p><strong>Age:</strong> <?php echo htmlspecialchars($player['age'] ?? 'N/A'); ?></p>
                 <p><strong>Market Value:</strong> $<?php echo number_format($player['market_value']); ?></p>

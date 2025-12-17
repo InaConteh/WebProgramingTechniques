@@ -62,25 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 
 <body>
-    <header>
-        <nav class="navbar">
-            <a href="index.php" class="logo">
-                <img src="images/logo_icon.png" alt="LionSport Agency Badge">
-                <span class="logo-text">LionSport Agency</span>
-            </a>
-            <ul class="nav-links">
-                <li><a href="index.php">Home</a></li>
-                <li><a href="players.php">Players</a></li>
-                <li><a href="about.php">About</a></li>
-                <li class="active-link"><a href="contact.php">Contact</a></li>
-                <?php if (isset($_SESSION['user_id'])): ?>
-                    <li><a href="logout.php">Logout (<?php echo htmlspecialchars($_SESSION['username']); ?>)</a></li>
-                <?php else: ?>
-                    <li><a href="login.php">Login</a></li>
-                <?php endif; ?>
-            </ul>
-        </nav>
-    </header>
+    <?php include 'header.php'; ?>
 
     <main class="contact-page-container">
         <section class="contact-hero-section animate-on-scroll">

@@ -44,22 +44,7 @@ $result = $conn->query("SELECT * FROM contact_submissions ORDER BY submitted_at 
 </head>
 
 <body>
-    <header>
-        <nav class="navbar">
-            <a href="index.php" class="logo">
-                <img src="images/logo_icon.png" alt="LionSport Agency Badge">
-                <span class="logo-text">LionSport Agency</span>
-            </a>
-            <ul class="nav-links">
-                <li><a href="index.php">Home</a></li>
-                <li><a href="players.php">Players</a></li>
-                <li><a href="about.php">About</a></li>
-                <li><a href="contact.php">Contact</a></li>
-                <li class="active-link"><a href="admin_contacts.php">Contact Submissions</a></li>
-                <li><a href="logout.php">Logout (<?php echo htmlspecialchars($_SESSION['username']); ?>)</a></li>
-            </ul>
-        </nav>
-    </header>
+    <?php include 'header.php'; ?>
 
     <main class="admin-container">
         <div class="admin-header">
@@ -69,7 +54,7 @@ $result = $conn->query("SELECT * FROM contact_submissions ORDER BY submitted_at 
 
         <div class="submissions-container">
             <?php if ($result->num_rows > 0): ?>
-                <table class="submissions-table">
+                <table class="admin-table">
                     <thead>
                         <tr>
                             <th>Status</th>

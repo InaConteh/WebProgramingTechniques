@@ -39,21 +39,7 @@ $result = $conn->query($sql);
 </head>
 
 <body>
-    <header>
-        <nav class="navbar">
-            <a href="index.php" class="logo">
-                <img src="images/logo_icon.png" alt="LionSport Agency Badge">
-                <span class="logo-text">LionSport Agency</span>
-            </a>
-            <ul class="nav-links">
-                <li><a href="index.php">Home</a></li>
-                <li class="active-link"><a href="players.php">Players</a></li>
-                <li><a href="about.php">About</a></li>
-                <li><a href="contact.php">Contact</a></li>
-                <li><a href="logout.php">Logout (<?php echo htmlspecialchars($_SESSION['username']); ?>)</a></li>
-            </ul>
-        </nav>
-    </header>
+    <?php include 'header.php'; ?>
 
     <main class="players-directory-container">
         <h2 class="animate-on-scroll">Players Directory</h2>
@@ -92,7 +78,7 @@ $result = $conn->query($sql);
                     echo '<a href="contract.php?id=' . $row['id'] . '" class="player-card-link">';
                     echo '<img src="' . htmlspecialchars($row["image_url"]) . '" alt="' . htmlspecialchars($row["name"]) . '">';
                     echo '<h3>' . htmlspecialchars($row["name"]) . '</h3>';
-                    echo '<p>' . htmlspecialchars($row["club"]) . '</p>';
+                    echo '<p>' . htmlspecialchars($row["club"]) . ' - <em>' . htmlspecialchars($row["position"] ?? 'N/A') . '</em></p>';
                     echo '<p>Age: ' . htmlspecialchars($row["age"]) . '</p>';
                     echo '<p>Status: <strong>' . htmlspecialchars($row["market_status"]) . '</strong></p>';
                     if ($row["market_status"] == 'For Sale' || $row["market_status"] == 'For Loan') {

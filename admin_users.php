@@ -16,7 +16,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['create_user'])) {
     $email = $_POST['email'];
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
     $role = $_POST['role'];
-    
+
     // Admin created users are verified by default
     $is_verified = 1;
 
@@ -34,7 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['create_user'])) {
 // Handle User Deletion
 if (isset($_POST['delete_user_id'])) {
     $delete_id = $_POST['delete_user_id'];
-    
+
     // Prevent deleting self
     if ($delete_id != $_SESSION['user_id']) {
         $conn->query("DELETE FROM users WHERE id=$delete_id");
@@ -60,21 +60,13 @@ $conn->close();
 </head>
 
 <body>
-    <header>
-        <nav class="navbar">
-            <div class="logo">Admin Panel</div>
-            <ul class="nav-links">
-                <li><a href="players.php">Manage Players</a></li>
-                <li class="active-link"><a href="admin_users.php">Manage Users</a></li>
-                <li><a href="logout.php">Logout</a></li>
-            </ul>
-        </nav>
-    </header>
+    <?php include 'header.php'; ?>
 
     <div class="form-container animate-on-scroll">
         <h2>Create Privileged User</h2>
-        <?php if ($message) echo "<div class='alert alert-success'>$message</div>"; ?>
-        
+        <?php if ($message)
+            echo "<div class='alert alert-success'>$message</div>"; ?>
+
         <form method="POST" action="">
             <input type="hidden" name="create_user" value="1">
             <div class="form-group">
@@ -101,31 +93,32 @@ $conn->close();
         </form>
     </div>
 
-    <div style="max-width: 800px; margin: 50px auto; padding: 20px;">
+    <div class="admin-table-wrapper animate-on-scroll">
         <h3>Existing Users</h3>
-        <table style="width:100%; border-collapse: collapse; margin-top:20px; background:white; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+        <table class="admin-table">
             <thead>
-                <tr style="background:#f4f4f4; text-align:left;">
-                    <th style="padding:10px; border-bottom:1px solid #ddd;">ID</th>
-                    <th style="padding:10px; border-bottom:1px solid #ddd;">Username</th>
-                    <th style="padding:10px; border-bottom:1px solid #ddd;">Role</th>
-                    <th style="padding:10px; border-bottom:1px solid #ddd;">Action</th>
+                <tr>
+                    <th>ID</th>
+                    <th>Username</th>
+                    <th>Role</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
                 <?php if ($result->num_rows > 0): ?>
-                    <?php while($row = $result->fetch_assoc()): ?>
-                        <tr style="border-bottom:1px solid #eee;">
-                            <td style="padding:10px;"><?php echo $row['id']; ?></td>
-                            <td style="padding:10px;"><?php echo htmlspecialchars($row['username']); ?></td>
-                            <td style="padding:10px; font-weight:bold; color: var(--primary-color);">
+                    <?php while ($row = $result->fetch_assoc()): ?>
+                        <tr>
+                            <td><?php echo $row['id']; ?></td>
+                            <td><?php echo htmlspecialchars($row['username']); ?></td>
+                            <td style="font-weight:bold; color: var(--primary-color);">
                                 <?php echo ucfirst($row['role']); ?>
                             </td>
-                            <td style="padding:10px;">
+                            <td>
                                 <?php if ($row['id'] != $_SESSION['user_id']): ?>
                                     <form method="POST" style="display:inline;">
                                         <input type="hidden" name="delete_user_id" value="<?php echo $row['id']; ?>">
-                                        <button type="submit" class="btn-danger" style="padding:5px 10px; border-radius:3px; border:none; cursor:pointer;" onclick="return confirm('Delete user?');">Delete</button>
+                                        <button type="submit" class="btn btn-danger"
+                                            onclick="return confirm('Delete user?');">Delete</button>
                                     </form>
                                 <?php else: ?>
                                     <span style="color:#aaa;">(You)</span>
@@ -134,7 +127,9 @@ $conn->close();
                         </tr>
                     <?php endwhile; ?>
                 <?php else: ?>
-                    <tr><td colspan="4" style="padding:10px; text-align:center;">No users found.</td></tr>
+                    <tr>
+                        <td colspan="4" style="text-align:center;">No users found.</td>
+                    </tr>
                 <?php endif; ?>
             </tbody>
         </table>
@@ -143,4 +138,5 @@ $conn->close();
     <?php include 'footer.php'; ?>
     <script src="main.js"></script>
 </body>
+
 </html>
