@@ -17,7 +17,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['user_id'] = $row['id'];
             $_SESSION['username'] = $row['username'];
             $_SESSION['role'] = $row['role'];
-            header("Location: players.php");
+
+            // Redirect based on role
+            if ($row['role'] === 'admin') {
+                header("Location: players.php");
+            } else if ($row['role'] === 'manager') {
+                header("Location: manager.php");
+            } else if ($row['role'] === 'agent') {
+                header("Location: agent.php");
+            } else {
+                header("Location: index.php");
+            }
             exit();
         } else {
             $message = "Invalid password.";
@@ -86,10 +96,7 @@ $conn->close();
 <body>
     <header>
         <nav class="navbar">
-            <a href="index.php" class="logo">
-                <img src="images/logo_icon.png" alt="LionSport Agency Badge">
-                <span class="logo-text">LionSport Agency</span>
-            </a>
+            <div class="logo">Football Agency</div>
             <ul class="nav-links">
                 <li><a href="index.php">Home</a></li>
                 <li><a href="register.php">Register</a></li>

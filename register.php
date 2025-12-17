@@ -7,13 +7,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST['username'];
     $email = $_POST['email'];
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-    $role = isset($_POST['role']) ? $_POST['role'] : 'user';
-
-    // Validate role
-    $allowed_roles = ['user', 'manager', 'agent'];
-    if (!in_array($role, $allowed_roles)) {
-        $role = 'user';
-    }
+    // Force role to user for public registration
+    $role = 'user';
 
     $sql = "INSERT INTO users (username, email, password, role) VALUES ('$username', '$email', '$password', '$role')";
 
@@ -84,10 +79,7 @@ $conn->close();
 <body>
     <header>
         <nav class="navbar">
-            <a href="index.php" class="logo">
-                <img src="images/logo_icon.png" alt="LionSport Agency Badge">
-                <span class="logo-text">LionSport Agency</span>
-            </a>
+            <div class="logo">Football Agency</div>
             <ul class="nav-links">
                 <li><a href="index.php">Home</a></li>
                 <li><a href="login.php">Login</a></li>
@@ -108,15 +100,7 @@ $conn->close();
                 <label for="email">Email</label>
                 <input type="email" id="email" name="email" required>
             </div>
-            <div class="form-group">
-                <label for="role">Role</label>
-                <select id="role" name="role" required class="form-control"
-                    style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
-                    <option value="user">User</option>
-                    <option value="manager">Manager</option>
-                    <option value="agent">Agent</option>
-                </select>
-            </div>
+            <!-- Role selection removed: Public users are always 'user' -->
             <div class="form-group">
                 <label for="password">Password</label>
                 <input type="password" id="password" name="password" required>
