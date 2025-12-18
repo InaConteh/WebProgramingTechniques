@@ -137,4 +137,21 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     }
+
+    // --- Password Visibility Toggle ---
+    const togglePasswords = document.querySelectorAll('.toggle-password');
+    togglePasswords.forEach(toggle => {
+        toggle.addEventListener('click', function() {
+            // Find the input field relative to the icon
+            const passwordInput = this.previousElementSibling;
+            
+            // Toggle the type attribute
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            
+            // Toggle the eye / eye-slash icon
+            this.classList.toggle('fa-eye');
+            this.classList.toggle('fa-eye-slash');
+        });
+    });
 });

@@ -33,6 +33,14 @@ This system serves as a digital hub for a modern football agency, allowing:
 - **Contact Inquiries:** View and manage messages from the contact page.
 - **Contract Oversight:** Manage negotiation status and terms.
 
+### Recent Features Added
+
+- **Dynamic Contract Visualization:** Contract details are now dynamically pulled from the database, featuring contract dates, market value, and status.
+- **Enhanced Agent Dashboard:** Agents can now manage their own dedicated list of players, update their stats, and monitor contract statuses in real-time.
+- **Club Manager Bidding System:** Club managers can now place formal bids on players directly through the platform.
+- **Video Highlight Integration:** Support for both YouTube/Vimeo embeds and direct MP4 video uploads for player highlights.
+- **Role-Based Access Control:** Strict permissioning for Admin, Agent, Club Manager, and Player roles.
+
 ## 🛠️ Installation & Setup
 
 ### Prerequisites
@@ -77,57 +85,61 @@ The system supports multiple user roles with distinct permissions. Use these def
 
 - **Email:** `admin@agency.com`
 - **Password:** `AdminSecret123!`
-- **Capabilities:** Manage all users, delete records, view all contracts, manage contact submissions.
+- **Role:** `admin`
 
 ### 2. Agent (Talent Management)
 
 - **Email:** `agent@agency.com`
 - **Password:** `AgentPass123!`
-- **Capabilities:** View multiple players, propose contracts, update player status.
+- **Role:** `agent`
 
-### 3. Club Manager (Scouting)
+### 3. agent(Scouting)
 
-- **Email:** `manager@club.com`
-- **Password:** `ManagerPass123!`
-- **Capabilities:** Browse listings, place bids, view limited contract info.
+- **Email:** 'sahidconteh@gmail.com'
+- **Password:** `password123`
+- **Role:** `Agent`
 
-### 4. Player (Individual Access)
+### 4. Club Manager (Scouting)
+
+- **Email:** 'MarkEllie@gmail.com'
+- **Password:** `1234`
+- **Role:** `manager`
+
+### 5. Player (Individual Access)
 
 - **Email:** _Created upon registration_
-- **Capabilities:** Edit own profile, view personal contract status.
-
-## 📝 Usage Guide
-
-### How to Register
-
-1.  Click **"Login"** in the navigation bar.
-2.  Select **"Register here"**.
-3.  Fill in your details (Name, Email, Password).
-4.  Default role is "User/Player" until promoted by an Admin.
-
-### How to Add a Player (Admin)
-
-1.  Log in as **Admin**.
-2.  Navigate to **Players** page.
-3.  Click **"Add New Player"**.
-4.  Fill in bio, stats, market value, and upload a photo.
-
-### How to Manage Contacts
-
-1.  Log in as **Admin**.
-2.  Go to the **Contact** page (Admin view active).
-3.  You will see a table of all messages sent via the public contact form.
-4.  You can mark them as read or delete them.
+- **Role:** `player`
 
 ## 📂 Project Structure
 
-- `index.php` - Homepage with dynamic stats.
-- `players.php` - Player directory and search.
-- `contract.php` - Contract details and negotiations.
-- `admin_contacts.php` - Admin panel for inquiries.
-- `db_connect.php` - Database connection settings.
-- `enhanced-hero.css` - Special styles for the animated hero section.
-- `main.js` - Frontend logic for animations and interactions.
+```text
+/Group-2-Final-Project-WebProgramming-Techiques
+│
+├── admin_contacts.php     # Admin view for contact messages
+├── admin_setup.php        # Script to initialize admin account
+├── admin_users.php        # Manage Agents, Managers, and Admins
+├── agent.php              # Agent-specific dashboard
+├── add_player.php         # Admin/Agent tool to add players
+├── edit_player.php        # Admin/Agent tool to modify players
+├── manager.php            # Club Manager-specific dashboard
+├── players.php            # Public and private player directory
+├── contract.php           # Dynamic player contract view
+├── place_bid.php          # Bidding logic for Club Managers
+├── db_connect.php         # Central database connection
+├── header.php             # Global navigation and branding
+├── footer.php             # Global site footer
+├── index.php              # Landing page with hero section
+├── login.php              # Authentication entry
+├── register.php           # User signup logic
+├── logout.php             # Session termination
+├── style.css              # Main design stylesheet
+├── enhanced-hero.css      # Hero-specific animations
+├── main.js                # Frontend interactivity
+├── schema.sql             # Database structure definition
+├── seed_data.php          # Demo data populations
+├── images/                # Visual assets (logos, icons)
+└── uploads/               # User-uploaded content (player photos/videos)
+```
 
 ---
 

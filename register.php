@@ -30,6 +30,7 @@ $conn->close();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register | Football Agency</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 
 <body>
@@ -51,7 +52,10 @@ $conn->close();
             <!-- Role selection removed: Public users are always 'user' -->
             <div class="form-group">
                 <label for="password">Password</label>
-                <input type="password" id="password" name="password" required>
+                <div class="password-container">
+                    <input type="password" id="password" name="password" required>
+                    <i class="fas fa-eye toggle-password" id="togglePassword"></i>
+                </div>
             </div>
             <button type="submit" class="btn">Register</button>
         </form>

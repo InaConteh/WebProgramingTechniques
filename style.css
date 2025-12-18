@@ -710,6 +710,31 @@ footer {
   border: 1px solid #f5c6cb;
 }
 
+/* --- Password Toggle Style --- */
+.password-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-container input {
+  width: 100%;
+  padding-right: 40px !important; /* Make room for the eye icon */
+}
+
+.toggle-password {
+  position: absolute;
+  right: 15px;
+  cursor: pointer;
+  color: #777;
+  transition: color 0.3s;
+  z-index: 10;
+}
+
+.toggle-password:hover {
+  color: var(--primary-color);
+}
+
 /* --- About Page Styles --- */
 .about-page-container {
   padding: 0;
