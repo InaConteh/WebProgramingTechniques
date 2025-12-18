@@ -2,8 +2,8 @@
 session_start();
 include 'db_connect.php';
 
-// Check if user is logged in and is admin
-if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
+// Check if user is logged in and is admin or agent
+if (!isset($_SESSION['user_id']) || ($_SESSION['role'] !== 'admin' && $_SESSION['role'] !== 'agent')) {
     header("Location: login.php");
     exit();
 }
@@ -41,8 +41,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Success upload, insert into DB
             $image_url = $target_file; // Store path relative to root
 
-            $stmt = $conn->prepare("INSERT INTO players (name, club, age, image_url, nationality, position) VALUES (?, ?, ?, ?, ?, ?)");
-            $stmt->bind_param("ssisss", $name, $club, $age, $image_url, $nationality, $position);
+            $owner_id = $_SESSION['user_id'];
+            $stmt = $conn->prepare("INSERT INTO players (name, club, age, image_url, nationality, position, owner_id) VALUES (?, ?, ?, ?, ?, ?, ?)");
+            $stmt->bind_param("ssisssi", $name, $club, $age, $image_url, $nationality, $position, $owner_id);
 
             if ($stmt->execute()) {
                 header("Location: players.php");

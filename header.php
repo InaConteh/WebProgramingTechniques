@@ -9,7 +9,7 @@ $is_logged_in = isset($_SESSION['user_id']);
     <nav class="navbar">
         <a href="index.php" class="logo">
             <img src="images/logo_icon.png" alt="LionSport Agency Badge">
-            <span class="logo-text">LionSport Agency</span>
+            <span class="logo-text">GrassRoot Agency</span>
         </a>
         <ul class="nav-links">
             <li><a href="index.php">Home</a></li>

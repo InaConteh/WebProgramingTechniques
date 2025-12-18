@@ -16,15 +16,34 @@ $view = isset($_GET['view']) ? $_GET['view'] : 'dashboard';
 $market_query = "SELECT * FROM players WHERE market_status = 'For Sale' OR market_status = 'Free Agent' OR market_status = 'For Loan'";
 $market_result = $conn->query($market_query);
 
-// 2. Dummy Data for Dashboard Stats
+// 2. Data for Dashboard Stats
+$agent_id = $_SESSION['user_id'];
+$stats_query = "SELECT 
+    COUNT(*) as total_clients, 
+    SUM(market_value) as portfolio_value 
+    FROM players WHERE owner_id = ?";
+$stmt_stats = $conn->prepare($stats_query);
+$stmt_stats->bind_param("i", $agent_id);
+$stmt_stats->execute();
+$stats_res = $stmt_stats->get_result()->fetch_assoc();
+
+// Active deals (Pending bids on their players or bids they've made? Let's say bids on their players)
+$deals_query = "SELECT COUNT(*) as active_deals FROM bids b 
+                JOIN players p ON b.player_id = p.id 
+                WHERE p.owner_id = ? AND b.status = 'Pending'";
+$stmt_deals = $conn->prepare($deals_query);
+$stmt_deals->bind_param("i", $agent_id);
+$stmt_deals->execute();
+$deals_res = $stmt_deals->get_result()->fetch_assoc();
+
 $stats = [
-    'total_clients' => 12,
-    'portfolio_value' => '$45.5M',
-    'active_deals' => 3,
-    'pending_actions' => 5
+    'total_clients' => $stats_res['total_clients'] ?? 0,
+    'portfolio_value' => '$' . number_format(($stats_res['portfolio_value'] ?? 0) / 1000000, 1) . 'M',
+    'active_deals' => $deals_res['active_deals'] ?? 0,
+    'pending_actions' => 0 // Hardcoded for now as it's complex
 ];
 
-// 3. Dummy Data for Activity Feed
+// 3. Dummy Data for Activity Feed (Keeping dummy for now as it's not core request)
 $activities = [
     ['date' => '2023-11-20', 'desc' => 'Bid submitted for Mohamed Kamara ($2M)'],
     ['date' => '2023-11-18', 'desc' => 'Contract renewal negotiations started for Alpha Turay'],
@@ -32,13 +51,24 @@ $activities = [
     ['date' => '2023-11-12', 'desc' => 'New sponsorship deal signed for Kei Kamara'],
 ];
 
-// 4. Dummy Data for My Clients
-$clients = [
-    ['name' => 'Alpha Turay', 'age' => 24, 'club' => 'FC Kallon', 'value' => '$1,200,000', 'contract' => '2025', 'status' => 'Stable'],
-    ['name' => 'John Doe', 'age' => 19, 'club' => 'Bo Rangers', 'value' => '$450,000', 'contract' => '2024', 'status' => 'Transfer Listed'],
-    ['name' => 'Samuel Bangura', 'age' => 28, 'club' => 'East End Lions', 'value' => '$800,000', 'contract' => '2026', 'status' => 'Stable'],
-    ['name' => 'David Sesay', 'age' => 21, 'club' => 'Free Agent', 'value' => '$0', 'contract' => 'N/A', 'status' => 'Seeking Club'],
-];
+// 4. Real Data for My Clients
+$clients_query = "SELECT * FROM players WHERE owner_id = ?";
+$stmt_clients = $conn->prepare($clients_query);
+$stmt_clients->bind_param("i", $agent_id);
+$stmt_clients->execute();
+$clients_result = $stmt_clients->get_result();
+$clients = [];
+while ($row = $clients_result->fetch_assoc()) {
+    $clients[] = [
+        'id' => $row['id'],
+        'name' => $row['name'],
+        'age' => $row['age'],
+        'club' => $row['club'],
+        'value' => '$' . number_format($row['market_value']),
+        'contract' => $row['contract_end'] ? date('Y', strtotime($row['contract_end'])) : 'N/A',
+        'status' => $row['market_status']
+    ];
+}
 
 $conn->close();
 ?>
@@ -283,7 +313,8 @@ $conn->close();
                                         <?php echo $c['status']; ?>
                                     </span>
                                 </td>
-                                <td><a href="#" style="color: var(--primary-color);">Manage</a></td>
+                                <td><a href="edit_player.php?id=<?php echo $c['id']; ?>"
+                                        style="color: var(--primary-color);">Manage</a></td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>

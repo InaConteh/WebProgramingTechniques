@@ -2,8 +2,8 @@
 session_start();
 include 'db_connect.php';
 
-// Check if user is logged in and is admin
-if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
+// Check if user is logged in and is admin or agent
+if (!isset($_SESSION['user_id']) || ($_SESSION['role'] !== 'admin' && $_SESSION['role'] !== 'agent')) {
     header("Location: login.php");
     exit();
 }
@@ -25,6 +25,12 @@ $player = $result->fetch_assoc();
 
 if (!$player) {
     echo "Player not found.";
+    exit();
+}
+
+// Ownership check for agents
+if ($_SESSION['role'] === 'agent' && $player['owner_id'] != $_SESSION['user_id']) {
+    echo "Unauthorized access. You can only edit your own clients.";
     exit();
 }
 
